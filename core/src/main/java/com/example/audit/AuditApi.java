@@ -1,6 +1,7 @@
 package com.example.audit;
 
 import com.example.career.domain.Auditable;
+import com.example.career.domain.CareerHistory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -13,14 +14,14 @@ public class AuditApi {
     private final RestTemplate client;
 
 
-    public AuditApi(@Value("api.audit-service.url") String auditUrl, RestTemplateBuilder restTemplateBuilder) {
+    public AuditApi(@Value("${api.audit-service.url}") String auditUrl, RestTemplateBuilder restTemplateBuilder) {
         this.client = restTemplateBuilder
                 .rootUri(auditUrl)
                 .build();
     }
 
-    public void saveHistory(String collection, Auditable auditable) {
-        this.client.postForEntity("api/v1/audit", new AuditRequest(auditable, collection), AuditRequest.class);
+    public void saveHistory(String collection, CareerHistory c) {
+        this.client.postForEntity("/api/v1/audit", new AuditRequest(c, collection), AuditRequest.class);
     }
 
 

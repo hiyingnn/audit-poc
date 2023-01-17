@@ -2,13 +2,13 @@ package com.example.career.dto;
 
 import com.example.common.ReferencesDTO;
 import com.example.config.ValidReference;
-import jakarta.validation.Valid;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
 import lombok.experimental.SuperBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
