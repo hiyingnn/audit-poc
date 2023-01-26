@@ -5,9 +5,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.javers.core.metamodel.annotation.Entity;
+import org.javers.core.metamodel.annotation.Id;
 import org.javers.core.metamodel.annotation.TypeName;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -31,4 +32,7 @@ public class CareerHistory extends References {
     String lastDrawnSalary;
     List<String> skills;
     List<Certification> certs;
+
+    @Version
+    Long version;
 }

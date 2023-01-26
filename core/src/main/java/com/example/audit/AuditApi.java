@@ -1,8 +1,6 @@
 package com.example.audit;
 
-import com.example.career.domain.Auditable;
 import com.example.career.domain.CareerHistory;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;

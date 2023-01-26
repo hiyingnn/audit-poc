@@ -17,12 +17,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CareerHistoryService {
 
+    private final static String COLLECTION = "CAREER_HISTORY";
     private final CareerHistoryRepository careerHistoryRepository;
     private final CareerHistoryMapper careerHistoryMapper;
-
     private final AuditApi auditApi;
-
-    private final static String COLLECTION = "CAREER_HISTORY";
 
     public CareerHistoryDTO addRecord(CareerHistoryDTO careerHistoryDTO) {
         CareerHistory careerHistory = careerHistoryMapper.toCareerHistory(careerHistoryDTO);

@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 public class Certification extends References {
+
     String name;
     String issuedBy;
 }

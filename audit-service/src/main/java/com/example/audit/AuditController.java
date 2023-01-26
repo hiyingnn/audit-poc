@@ -4,10 +4,11 @@ import com.example.domain.Auditable;
 import com.example.domain.CareerHistory;
 import lombok.RequiredArgsConstructor;
 import org.javers.core.Changes;
-import org.javers.shadow.Shadow;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/audit")
@@ -21,12 +22,17 @@ public class AuditController {
     }
 
     @GetMapping("/shadows/{id}")
-    public List<CareerHistory> getAllShadowsInstanceById(@PathVariable("id") String id ) {
-        return auditService.getAllShadowsById(id);
+    public Page<CareerHistory> getAllVersionsById(Pageable pageable, @PathVariable("id") String id) {
+        return auditService.getAllVersionsById(pageable, id);
+    }
+
+    @GetMapping("/shadows/{id}/version/{version}")
+    public Optional<CareerHistory> getVersionByIdAndVersion(@PathVariable String id, @PathVariable Long version) {
+        return auditService.getVersionByIdAndVersion(id, version);
     }
 
     @GetMapping("/changes/{id}")
-    public Changes getChangesByIdGroupedByCommit(@PathVariable("id") String id ) {
-        return auditService.getChangesByIdGroupedByCommit(id);
+    public Changes getChangesByIdGroupedByCommit(@PathVariable String id, @RequestParam(value = "property", required = false) String property, @RequestParam(value = "isValueObject", required = false) boolean isValueObject) {
+        return auditService.getChangesByIdGroupedByCommit(id, property, isValueObject);
     }
 }
