@@ -21,7 +21,7 @@ public class AuditController {
     }
 
     @GetMapping("/shadows/{id}")
-    public List<Shadow<CareerHistory>> getAllShadowsById(@PathVariable("id") String id ) {
+    public List<CareerHistory> getAllShadowsInstanceById(@PathVariable("id") String id ) {
         return auditService.getAllShadowsById(id);
     }
 

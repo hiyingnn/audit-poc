@@ -28,6 +28,7 @@ public class CareerHistoryDTO extends ReferencesDTO {
     List<String> skills;
 
     List<@Valid CertificationToFieldDTO> certs;
+    Long version;
 
     @Override
     public Set<String> getMandatoryReferences() {

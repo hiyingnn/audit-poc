@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -26,4 +27,11 @@ public class CareerHistory extends References implements Auditable {
     String lastDrawnSalary;
     List<String> skills;
     List<Certification> certs;
+
+    @Version
+    Long version;
+
+    public static String getCollectionName() {
+        return null;
+    }
 }

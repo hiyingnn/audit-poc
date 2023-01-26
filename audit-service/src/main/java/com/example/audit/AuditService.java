@@ -22,9 +22,13 @@ public class AuditService {
         javers.commit(collection, careerHistory);
     }
 
-    public List<Shadow<CareerHistory>> getAllShadowsById(String id) {
-        JqlQuery query = QueryBuilder.byClass(CareerHistory.class).build();
-        return javers.findShadows(query);
+    public List<CareerHistory> getAllShadowsById(String id) {
+        var shadows = javers.findShadows(QueryBuilder
+                .byInstanceId(id, CareerHistory.class)
+                .withScopeCommitDeep()
+                .build());
+
+        return shadows.stream().map(Shadow::get).map(a -> (CareerHistory) a).toList();
     }
 
     public Changes getChangesByIdGroupedByCommit(String id){
