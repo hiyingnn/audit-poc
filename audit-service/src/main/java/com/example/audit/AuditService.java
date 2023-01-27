@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.javers.core.Changes;
 import org.javers.core.Javers;
-import org.javers.repository.jql.JqlQuery;
 import org.javers.repository.jql.QueryBuilder;
 import org.javers.shadow.Shadow;
 import org.springframework.data.domain.Page;
@@ -70,28 +69,40 @@ public class AuditService {
 
     }
 
-    public Changes getChangesByIdGroupedByCommit(String id, String property, boolean isValueObject) {
+    public Object getBasedOnFragment(Long id, String property) {
+        var query = QueryBuilder.byValueObjectId(id, CareerHistory.class, property)
+                .withChildValueObjects()
+                .withScopeCommitDeep()
+                .build();
+        var shadow = javers.findShadows(query);
+        return shadow.stream().map(Shadow::get).findFirst();
+    }
 
-        JqlQuery query = QueryBuilder.byInstanceId(id, CareerHistory.class)
+    public Changes getChangesByIdGroupedByCommit(String id, String property, boolean isValueObject) {
+        var query = QueryBuilder.byInstanceId(id, CareerHistory.class)
                 .withChildValueObjects()
                 .withScopeCommitDeep()
                 .build();
 
-        if (property != null && isValueObject) {
-            query = QueryBuilder.byValueObjectId(id, CareerHistory.class, property)
-                    .withChildValueObjects(false)
+        if (property != null) {
+            query = QueryBuilder.byInstanceId(id, CareerHistory.class)
+                    .withChildValueObjects()
+                    .withChangedProperty(property)
                     .withScopeCommitDeep()
                     .build();
-        } else if (property != null && !isValueObject) {
-            query = QueryBuilder.byInstanceId(id, CareerHistory.class)
-                    .withChangedProperty(property)
-                    .withChildValueObjects()
-                    .withScopeCommitDeep()
+
+        }
+
+        if (isValueObject) {
+            query = QueryBuilder.byValueObjectId(id, CareerHistory.class, property)
+                    .withChildValueObjects(false)
                     .build();
         }
 
+
         Changes changes = javers.findChanges(query);
         log.warn(changes.prettyPrint());
+
         return changes;
     }
 
